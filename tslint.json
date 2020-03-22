@@ -1,7 +1,5 @@
 {
-	"extends": [
-		"tslint-immutable"
-	],
+	"extends": ["tslint-immutable"],
 	"rules": {
 		"no-var-keyword": true,
 		"no-parameter-reassignment": true,
@@ -15,14 +13,9 @@
 		"no-class": false,
 		"no-mixed-interface": false,
 		"no-expression-statement": false,
-		"member-ordering": [
-			true,
-			"variables-before-functions"
-		],
+		"member-ordering": [true, "variables-before-functions"],
 		"no-any": false,
-		"no-inferrable-types": [
-			false
-		],
+		"no-inferrable-types": [false],
 		"no-internal-module": true,
 		"no-var-requires": false,
 		"typedef-whitespace": [
@@ -49,13 +42,7 @@
 		"no-arg": true,
 		"no-bitwise": false,
 		"no-conditional-assignment": true,
-		"no-console": [
-			true,
-			"info",
-			"time",
-			"timeEnd",
-			"trace"
-		],
+		"no-console": [true, "info", "time", "timeEnd", "trace"],
 		"no-construct": true,
 		"no-debugger": true,
 		"no-duplicate-variable": true,
@@ -66,27 +53,14 @@
 		"no-shadowed-variable": false,
 		"no-string-literal": false,
 		"no-switch-case-fall-through": true,
-		"no-unused-expression": [
-			true,
-			"allow-fast-null-checks"
-		],
+		"no-unused-expression": [true, "allow-fast-null-checks"],
 		"no-use-before-declare": true,
 		"radix": true,
 		"switch-default": true,
-		"triple-equals": [
-			true,
-			"allow-undefined-check",
-			"allow-null-check"
-		],
+		"triple-equals": [true, "allow-undefined-check", "allow-null-check"],
 		"eofline": false,
-		"indent": [
-			true,
-			"tabs"
-		],
-		"max-line-length": [
-			true,
-			250
-		],
+		"indent": [true, "tabs"],
+		"max-line-length": [true, 250],
 		"no-require-imports": false,
 		"no-trailing-whitespace": true,
 		"object-literal-sort-keys": false,
@@ -97,21 +71,12 @@
 				"singleline": "never"
 			}
 		],
-		"align": [
-			true
-		],
+		"align": [true],
 		"class-name": true,
-		"comment-format": [
-			true,
-			"check-space"
-		],
-		"interface-name": [
-			false
-		],
+		"comment-format": [true, "check-space"],
+		"interface-name": [false],
 		"jsdoc-format": true,
-		"no-consecutive-blank-lines": [
-			true
-		],
+		"no-consecutive-blank-lines": [true],
 		"no-parameter-properties": false,
 		"one-line": [
 			true,
@@ -121,21 +86,9 @@
 			"check-finally",
 			"check-whitespace"
 		],
-		"quotemark": [
-			true,
-			"single",
-			"avoid-escape"
-		],
-		"semicolon": [
-			true,
-			"always"
-		],
-		"variable-name": [
-			false,
-			"check-format",
-			"allow-leading-underscore",
-			"ban-keywords"
-		],
+		"quotemark": [true, "single", "jsx-double", "avoid-escape"],
+		"semicolon": [true, "always"],
+		"variable-name": [false, "check-format", "allow-leading-underscore", "ban-keywords"],
 		"whitespace": [
 			true,
 			"check-branch",

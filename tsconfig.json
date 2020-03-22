@@ -38,5 +38,6 @@
 		"noFallthroughCasesInSwitch": true,
 		"forceConsistentCasingInFileNames": true,
 		"importHelpers": true
-	},
+    },
+    "plugins": [{"name": "typescript-tslint-plugin"}]
 }
