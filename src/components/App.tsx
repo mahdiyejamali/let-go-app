@@ -1,21 +1,21 @@
 import React, { PureComponent } from 'react';
 
 import '../styles/index.css';
-import Button from '@material-ui/core/Button';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+
+import Home from './Home';
+import ProductsList from './products/ProductsList';
 
 class App extends PureComponent {
-	handleClick = () => {
-		// Open setting goal page
-	};
-
 	render() {
 		return (
-			<div className="text-center-h text-center-v">
-				<h1>Let's get started!</h1>
-				<Button variant="contained" color="primary" onClick={this.handleClick}>
-					Start
-				</Button>
-			</div>
+			<Router>
+				<Switch>
+					<Route exact path="/" render={props => <Home history={props.history} />} />
+					<Route path="/products" component={ProductsList} />
+					<Redirect to="/" />
+				</Switch>
+			</Router>
 		);
 	}
 }
