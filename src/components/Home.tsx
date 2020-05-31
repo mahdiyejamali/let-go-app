@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
 import '../styles/index.css';
 import Button from '@material-ui/core/Button';
 
+import AuthContext from './auth/AuthContext';
+
 interface IHomeProps extends RouteComponentProps<any> {}
 
 const Home: React.SFC<IHomeProps> = ({ history }) => {
+	const auth = useContext(AuthContext);
+	console.log({ auth });
+
 	const onClick = () => {
 		history.push('/products');
 	};

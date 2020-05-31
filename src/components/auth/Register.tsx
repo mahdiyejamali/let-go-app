@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Auth } from 'aws-amplify';
 
 // Types
 import { Event } from '../../ts/types/commonTypes';
@@ -38,7 +39,15 @@ class Register extends Component {
 			});
 		}
 
-		// AWS Cognito integration here
+		const { username, email, password, errors } = this.state;
+		try {
+			const signUpResponse = await Auth.signUp({ username, password, attributes: { email } });
+			console.log({ signUpResponse });
+			this.props.history.push('/welcome');
+		} catch (error) {
+			console.log({ error });
+			this.setState({ errors: { ...errors, cognito: error } });
+		}
 	};
 
 	onInputChange = (event: Event) => {
@@ -62,7 +71,7 @@ class Register extends Component {
 								<input
 									className="input"
 									type="text"
-									id="username"
+									name="username"
 									aria-describedby="userNameHelp"
 									placeholder="Enter username"
 									value={this.state.username}
@@ -75,7 +84,7 @@ class Register extends Component {
 								<input
 									className="input"
 									type="email"
-									id="email"
+									name="email"
 									aria-describedby="emailHelp"
 									placeholder="Enter email"
 									value={this.state.email}
@@ -91,7 +100,7 @@ class Register extends Component {
 								<input
 									className="input"
 									type="password"
-									id="password"
+									name="password"
 									placeholder="Password"
 									value={this.state.password}
 									onChange={this.onInputChange}
@@ -106,7 +115,7 @@ class Register extends Component {
 								<input
 									className="input"
 									type="password"
-									id="confirmpassword"
+									name="confirmpassword"
 									placeholder="Confirm password"
 									value={this.state.confirmpassword}
 									onChange={this.onInputChange}
