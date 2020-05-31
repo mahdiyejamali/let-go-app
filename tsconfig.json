@@ -8,6 +8,7 @@
 		"strictNullChecks": true,
 		// Search under node_modules for non-relative imports.
 		"moduleResolution": "node",
+		"resolveJsonModule": true,
 		// Process & infer types from .js files.
 		"allowJs": true,
 		// Don't emit; allow Babel to transform files.
@@ -19,13 +20,7 @@
 		// use typescript to transpile jsx to js
 		"jsx": "react",
 		"baseUrl": "./src",
-		"lib": [
-			"es2015",
-			"dom.iterable",
-			"es2016.array.include",
-			"es2017.object",
-			"dom"
-		],
+		"lib": ["es2015", "dom.iterable", "es2016.array.include", "es2017.object", "dom"],
 		"module": "es6",
 		"removeComments": true,
 		"alwaysStrict": true,
@@ -38,6 +33,6 @@
 		"noFallthroughCasesInSwitch": true,
 		"forceConsistentCasingInFileNames": true,
 		"importHelpers": true
-    },
-    "plugins": [{"name": "typescript-tslint-plugin"}]
+	},
+	"plugins": [{ "name": "typescript-tslint-plugin" }]
 }

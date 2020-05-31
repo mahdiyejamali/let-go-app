@@ -64,13 +64,7 @@
 		"no-require-imports": false,
 		"no-trailing-whitespace": true,
 		"object-literal-sort-keys": false,
-		"trailing-comma": [
-			true,
-			{
-				"multiline": "never",
-				"singleline": "never"
-			}
-		],
+		"trailing-comma": [true],
 		"align": [true],
 		"class-name": true,
 		"comment-format": [true, "check-space"],
@@ -87,7 +81,7 @@
 			"check-whitespace"
 		],
 		"quotemark": [true, "single", "jsx-double", "avoid-escape"],
-		"semicolon": [true, "always"],
+		"semicolon": [true, "always", "strict-bound-class-methods"],
 		"variable-name": [false, "check-format", "allow-leading-underscore", "ban-keywords"],
 		"whitespace": [
 			true,
