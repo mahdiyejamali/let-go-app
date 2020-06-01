@@ -1,59 +1,31 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import { Auth } from 'aws-amplify';
 
+import NavBar from './NavBar';
 import Home from './Home';
 import ProductsList from './products/ProductsList';
 import ProductDetails from './products/ProductDetails';
 
 import AuthContext from './auth/AuthContext';
-import Register from './auth/Register';
-import Login from './auth/Login';
+import SignUp from './auth/SignUp';
+import SignIn from './auth/SignIn';
 import Welcome from './auth/Welcome';
+
+import useAuth from '../customHooks/useAuth';
 
 import '../styles/index.css';
 
 const App = () => {
-	const [isAuthenticted, setIsAuthenticated] = useState(false);
-	const [user, setUser] = useState({});
-
-	useEffect(() => {
-		const retrieveAuthData = async () => {
-			try {
-				const session = await Auth.currentSession();
-				setIsAuthenticated(true);
-				console.log({ session });
-				const user = await Auth.currentAuthenticatedUser();
-				setUser(user);
-			} catch (error) {
-				console.log({ error });
-			}
-		};
-
-		retrieveAuthData();
-	}, []);
-
-	const setAuthStatus = useCallback(
-		(isAuthenticted: boolean) => {
-			setIsAuthenticated(isAuthenticted);
-		},
-		[isAuthenticted]
-	);
-
-	const setAuthenticatedUser = useCallback(
-		(user: object) => {
-			setUser(user);
-		},
-		[user]
-	);
+	const { isAuthenticted, user, setAuthStatus, setAuthenticatedUser } = useAuth();
 
 	return (
 		<AuthContext.Provider value={{ isAuthenticted, user, setAuthStatus, setAuthenticatedUser }}>
+			<NavBar />
 			<Router>
 				<Switch>
-					<Route exact path="/" render={props => <Home history={props.history} />} />
-					<Route exact path="/register" component={Register} />
-					<Route exact path="/login" component={Login} />
+					<Route exact path="/" component={Home} />
+					<Route exact path="/sign-up" component={SignUp} />
+					<Route exact path="/sign-in" component={SignIn} />
 					<Route exact path="/welcome" component={Welcome} />
 					<Route path="/products/:id" component={ProductDetails} />
 					<Route path="/products" render={props => <ProductsList history={props.history} />} />
