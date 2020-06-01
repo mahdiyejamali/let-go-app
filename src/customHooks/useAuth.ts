@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Auth } from 'aws-amplify';
+import { AuthContextType } from 'components/auth/AuthContext';
 
-const useAuth = () => {
+const useAuth = (): AuthContextType => {
 	const [isAuthenticted, setIsAuthenticated] = useState(false);
 	const [user, setUser] = useState({});
 
@@ -10,7 +11,6 @@ const useAuth = () => {
 			try {
 				const session = await Auth.currentSession();
 				setIsAuthenticated(true);
-				console.log({ session });
 				const user = await Auth.currentAuthenticatedUser();
 				setUser(user);
 			} catch (error) {

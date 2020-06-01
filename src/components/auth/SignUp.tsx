@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Auth } from 'aws-amplify';
 
+// Components
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -15,6 +16,7 @@ import Container from '@material-ui/core/Container';
 
 // Types
 import { Event } from '../../ts/types/commonTypes';
+import { useHistory } from 'react-router';
 
 function Copyright() {
 	return (
@@ -49,8 +51,9 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const SignUp = (props: object) => {
+const SignUp = () => {
 	const classes = useStyles();
+	const history = useHistory();
 	const [formData, setFormData] = useState({
 		username: '',
 		email: '',
@@ -86,9 +89,8 @@ const SignUp = (props: object) => {
 
 		const { username, email, password, errors } = formData;
 		try {
-			const signUpResponse = await Auth.signUp({ username, password, attributes: { email } });
-			console.log({ signUpResponse });
-			props.history.push('/welcome');
+			await Auth.signUp({ username, password, attributes: { email } });
+			history.push('/welcome');
 		} catch (error) {
 			console.log({ error });
 			// this.setState({ errors: { ...errors, cognito: error } });
@@ -171,110 +173,5 @@ const SignUp = (props: object) => {
 		</Container>
 	);
 };
-
-// class Register extends Component {
-// 	state = {
-// 		username: '',
-// 		email: '',
-// 		password: '',
-// 		confirmpassword: '',
-// 		errors: {
-// 			cognito: null,
-// 			blankfield: false,
-// 			passwordmatch: false,
-// 		},
-// 	};
-
-// 	clearErrorState = () => {
-// 		this.setState({
-// 			errors: {
-// 				cognito: null,
-// 				blankfield: false,
-// 				passwordmatch: false,
-// 			},
-// 		});
-// 	};
-
-// 	render() {
-// 		return (
-// 			<section className="section auth">
-// 				<div className="container">
-// 					<h1>Register</h1>
-// 					<form onSubmit={this.handleSubmit}>
-// 						<div className="field">
-// 							<p className="control">
-// 								<input
-// 									className="input"
-// 									type="text"
-// 									name="username"
-// 									aria-describedby="userNameHelp"
-// 									placeholder="Enter username"
-// 									value={this.state.username}
-// 									onChange={this.onInputChange}
-// 								/>
-// 							</p>
-// 						</div>
-// 						<div className="field">
-// 							<p className="control has-icons-left has-icons-right">
-// 								<input
-// 									className="input"
-// 									type="email"
-// 									name="email"
-// 									aria-describedby="emailHelp"
-// 									placeholder="Enter email"
-// 									value={this.state.email}
-// 									onChange={this.onInputChange}
-// 								/>
-// 								<span className="icon is-small is-left">
-// 									<i className="fas fa-envelope"></i>
-// 								</span>
-// 							</p>
-// 						</div>
-// 						<div className="field">
-// 							<p className="control has-icons-left">
-// 								<input
-// 									className="input"
-// 									type="password"
-// 									name="password"
-// 									placeholder="Password"
-// 									value={this.state.password}
-// 									onChange={this.onInputChange}
-// 								/>
-// 								<span className="icon is-small is-left">
-// 									<i className="fas fa-lock"></i>
-// 								</span>
-// 							</p>
-// 						</div>
-// 						<div className="field">
-// 							<p className="control has-icons-left">
-// 								<input
-// 									className="input"
-// 									type="password"
-// 									name="confirmpassword"
-// 									placeholder="Confirm password"
-// 									value={this.state.confirmpassword}
-// 									onChange={this.onInputChange}
-// 								/>
-// 								<span className="icon is-small is-left">
-// 									<i className="fas fa-lock"></i>
-// 								</span>
-// 							</p>
-// 						</div>
-// 						<div className="field">
-// 							<p className="control">
-// 								<a href="/forgotpassword">Forgot password?</a>
-// 							</p>
-// 						</div>
-// 						<div className="field">
-// 							<p className="control">
-// 								<button className="button is-success">Register</button>
-// 							</p>
-// 						</div>
-// 					</form>
-// 				</div>
-// 			</section>
-// 		);
-// 	}
-// }
 
 export default SignUp;

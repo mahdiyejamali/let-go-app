@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Components
 import Container from '@material-ui/core/Container';
 
 const Welcome = () => {

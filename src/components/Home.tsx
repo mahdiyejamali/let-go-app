@@ -6,7 +6,6 @@ import AuthContext from './auth/AuthContext';
 
 const Home = () => {
 	const auth = useContext(AuthContext);
-	console.log({ auth });
 
 	return (
 		<div className="text-center-h text-center-v">
