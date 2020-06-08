@@ -1,8 +1,8 @@
 import React from 'react';
 
 // Auth
-import AuthContext, { AuthContextType } from './auth/AuthContext';
-import useAuth from '../customHooks/useAuth';
+import AuthProvider from './auth/AuthProvider';
+import StoreProvider from '../store/index';
 
 // Routes
 import Routes from './routes/Routes';
@@ -11,18 +11,12 @@ import Routes from './routes/Routes';
 import '../styles/index.css';
 
 const App = () => {
-	const { isAuthenticted, user, setAuthStatus, setAuthenticatedUser } = useAuth();
-	const authContextValue: AuthContextType = {
-		isAuthenticted,
-		user,
-		setAuthStatus,
-		setAuthenticatedUser,
-	};
-
 	return (
-		<AuthContext.Provider value={authContextValue}>
-			<Routes />
-		</AuthContext.Provider>
+		<StoreProvider>
+			<AuthProvider>
+				<Routes />
+			</AuthProvider>
+		</StoreProvider>
 	);
 };
 

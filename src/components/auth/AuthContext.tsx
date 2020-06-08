@@ -6,7 +6,7 @@ export type AuthUserType = {
 };
 
 export type AuthContextType = {
-	isAuthenticted: boolean;
+	isAuthenticted: boolean | null;
 	user: AuthUserType | null;
 	setAuthStatus?: Function;
 	setAuthenticatedUser?: Function;

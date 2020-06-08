@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
+import useProducts from '../../hooks/useProducts';
 
 import Container from '@material-ui/core/Container';
 import GridList from '@material-ui/core/GridList';
@@ -53,7 +55,15 @@ const tileData: Array<Object> = [
 ];
 
 const ProductsList = ({ history }) => {
-	const onClick = id => () => {
+	const { products, getProducts } = useProducts();
+
+	useEffect(() => {
+		getProducts();
+	}, []);
+
+	console.log({ products });
+
+	const onClick = (id: string) => () => {
 		history.push(`/products/${id}`);
 	};
 

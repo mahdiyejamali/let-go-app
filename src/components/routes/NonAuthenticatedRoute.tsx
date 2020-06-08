@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import useAuth from '../../customHooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 
 const NonAuthenticatedRoute = (props: any) => {
 	const { isAuthenticted } = useAuth();

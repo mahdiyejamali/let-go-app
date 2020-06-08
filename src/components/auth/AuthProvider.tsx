@@ -1,17 +1,18 @@
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Auth } from 'aws-amplify';
-import { AuthContextType } from 'components/auth/AuthContext';
 
-const useAuth = (): AuthContextType => {
-	const [isAuthenticted, setIsAuthenticated] = useState(false);
+import AuthContext, { AuthContextType } from './AuthContext';
+
+const useProvideAuth = (): AuthContextType => {
+	const [isAuthenticted, setIsAuthenticated] = useState<boolean | null>(null);
 	const [user, setUser] = useState({});
 
 	useEffect(() => {
 		const retrieveAuthData = async () => {
 			try {
 				const session = await Auth.currentSession();
-				setIsAuthenticated(true);
 				const user = await Auth.currentAuthenticatedUser();
+				setIsAuthenticated(true);
 				setUser(user);
 			} catch (error) {
 				console.log({ error });
@@ -38,4 +39,9 @@ const useAuth = (): AuthContextType => {
 	return { isAuthenticted, user, setAuthStatus, setAuthenticatedUser };
 };
 
-export default useAuth;
+const AuthProvider = (props: any) => {
+	const auth = useProvideAuth();
+	return <AuthContext.Provider value={auth}>{props.children}</AuthContext.Provider>;
+};
+
+export default AuthProvider;
