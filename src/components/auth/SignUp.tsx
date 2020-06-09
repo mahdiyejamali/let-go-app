@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Auth } from 'aws-amplify';
+import { useHistory } from 'react-router';
 
 // Components
 import Avatar from '@material-ui/core/Avatar';
@@ -14,9 +14,12 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+// Auth
+import useAuth from '../../hooks/useAuth';
+
 // Types
 import { Event } from '../../ts/types/commonTypes';
-import { useHistory } from 'react-router';
+import { AuthContextType } from './AuthContext';
 
 function Copyright() {
 	return (
@@ -54,6 +57,7 @@ const useStyles = makeStyles(theme => ({
 const SignUp = () => {
 	const classes = useStyles();
 	const history = useHistory();
+	const auth: AuthContextType = useAuth();
 	const [formData, setFormData] = useState({
 		username: '',
 		email: '',
@@ -72,29 +76,22 @@ const SignUp = () => {
 			...formData,
 			[name]: value,
 		});
-		// document.getElementById(event.target.id).classList.remove('is-danger');
 	};
 
-	const handleSubmit = async () => {
-		// event.preventDefault();
-
-		// Form validation
-		// this.clearErrorState();
+	const handleSubmit = () => {
+		// Handle Form Validation
 		const error = {};
 		if (error) {
-			// this.setState({
-			// 	errors: { ...this.state.errors, ...error },
-			// });
+			// Handle Error
 		}
 
 		const { username, email, password, errors } = formData;
-		try {
-			await Auth.signUp({ username, password, attributes: { email } });
-			history.push('/welcome');
-		} catch (error) {
-			console.log({ error });
-			// this.setState({ errors: { ...errors, cognito: error } });
-		}
+		auth.signUp &&
+			auth.signUp(
+				{ username, email, password },
+				() => history.push('/welcome'),
+				(error: any) => console.log({ error })
+			);
 	};
 
 	return (

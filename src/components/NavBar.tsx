@@ -1,6 +1,5 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Auth } from 'aws-amplify';
 
 // Components
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,7 +11,8 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
 // Auth
-import AuthContext from './auth/AuthContext';
+import useAuth from '../hooks/useAuth';
+import { AuthContextType } from './auth/AuthContext';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -29,8 +29,8 @@ const useStyles = makeStyles(theme => ({
 
 const NavBar = () => {
 	const classes = useStyles();
-	const auth = useContext(AuthContext);
-	const { isAuthenticted, user, setAuthStatus, setAuthenticatedUser } = auth;
+	const auth: AuthContextType = useAuth();
+	const { isAuthenticted, user } = auth;
 	const history = useHistory();
 
 	const onSignUpClick = () => {
@@ -41,15 +41,12 @@ const NavBar = () => {
 		history.push('/sign-in');
 	};
 
-	const onSignOutClick = async () => {
-		try {
-			await Auth.signOut();
-			setAuthStatus && setAuthStatus(false);
-			setAuthenticatedUser && setAuthenticatedUser(null);
-			history.push('/sign-in');
-		} catch (error) {
-			console.log({ error });
-		}
+	const onSignOutClick = () => {
+		auth.signOut &&
+			auth.signOut(
+				() => history.push('/sign-in'),
+				(error: any) => console.log({ error })
+			);
 	};
 
 	return useMemo(

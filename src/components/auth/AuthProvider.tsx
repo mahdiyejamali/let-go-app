@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Auth } from 'aws-amplify';
 
-import AuthContext, { AuthContextType } from './AuthContext';
+import AuthContext, { AuthContextType, AuthUserType } from './AuthContext';
 
 const useProvideAuth = (): AuthContextType => {
 	const [isAuthenticted, setIsAuthenticated] = useState<boolean | null>(null);
-	const [user, setUser] = useState({});
+	const [user, setUser] = useState<AuthUserType | null>({});
 
 	useEffect(() => {
 		const retrieveAuthData = async () => {
 			try {
-				const session = await Auth.currentSession();
+				await Auth.currentSession();
 				const user = await Auth.currentAuthenticatedUser();
 				setIsAuthenticated(true);
 				setUser(user);
@@ -30,13 +30,46 @@ const useProvideAuth = (): AuthContextType => {
 	);
 
 	const setAuthenticatedUser = useCallback(
-		(user: object) => {
+		(user: AuthUserType | null) => {
 			setUser(user);
 		},
 		[user]
 	);
 
-	return { isAuthenticted, user, setAuthStatus, setAuthenticatedUser };
+	const signUp = async (formData: object = {}, onSuccess: Function, onFailure: Function) => {
+		const { username, password, email }: any = formData;
+		try {
+			await Auth.signUp({ username, password, attributes: { email } });
+			onSuccess();
+		} catch (error) {
+			onFailure(error);
+		}
+	};
+
+	const signIn = async (formData: object = {}, onSuccess: Function, onFailure: Function) => {
+		const { username, password }: any = formData;
+		try {
+			const user = await Auth.signIn(username, password);
+			setAuthStatus(true);
+			setAuthenticatedUser(user);
+			onSuccess();
+		} catch (error) {
+			onFailure(error);
+		}
+	};
+
+	const signOut = async (onSuccess: Function, onFailure: Function) => {
+		try {
+			await Auth.signOut();
+			setAuthStatus(false);
+			setAuthenticatedUser(null);
+			onSuccess();
+		} catch (error) {
+			onFailure(error);
+		}
+	};
+
+	return { isAuthenticted, user, setAuthStatus, setAuthenticatedUser, signUp, signIn, signOut };
 };
 
 const AuthProvider = (props: any) => {

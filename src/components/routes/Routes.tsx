@@ -6,6 +6,7 @@ import NavBar from '../NavBar';
 import Home from '../Home';
 import ProductsList from '../products/ProductsList';
 import ProductDetails from '../products/ProductDetails';
+import ProductsCreate from '../products/ProductsCreate';
 
 // Auth
 import SignUp from '../auth/SignUp';
@@ -33,6 +34,7 @@ const Routes = () => {
 					path="/forgot-password-verification"
 					component={ForgotPasswordVerification}
 				/>
+				<PrivateRoute exact path="/products/create" component={ProductsCreate} />
 				<PrivateRoute path="/products/:id" component={ProductDetails} />
 				<PrivateRoute path="/products" component={ProductsList} />} />
 				<Redirect to="/" />

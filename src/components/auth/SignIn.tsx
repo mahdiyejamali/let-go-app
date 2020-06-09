@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { Auth } from 'aws-amplify';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router';
 
 // Components
 import Avatar from '@material-ui/core/Avatar';
@@ -15,11 +15,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 // Auth
-import AuthContext from './AuthContext';
+import useAuth from '../../hooks/useAuth';
 
 // Types
 import { Event } from '../../ts/types/commonTypes';
-import { useHistory } from 'react-router';
+import { AuthContextType } from './AuthContext';
 
 function Copyright() {
 	return (
@@ -57,8 +57,7 @@ const useStyles = makeStyles(theme => ({
 const SignIn = () => {
 	const classes = useStyles();
 	const history = useHistory();
-	const auth = useContext(AuthContext);
-	const { setAuthStatus, setAuthenticatedUser } = auth;
+	const auth: AuthContextType = useAuth();
 	const [formData, setFormData] = useState({
 		username: '',
 		password: '',
@@ -68,10 +67,8 @@ const SignIn = () => {
 		},
 	});
 
-	const handleSubmit = async () => {
-		// Form validation
-		// clearErrorState();
-		const error = {}; //Validate(event, this.state);
+	const handleSubmit = () => {
+		const error = {};
 		if (error) {
 			setFormData({
 				...formData,
@@ -80,15 +77,12 @@ const SignIn = () => {
 		}
 
 		const { username, password, errors } = formData;
-		try {
-			const user = await Auth.signIn(username, password);
-			setAuthStatus && setAuthStatus(true);
-			setAuthenticatedUser && setAuthenticatedUser(user);
-			history.push('/');
-		} catch (error) {
-			console.log({ error });
-			setFormData({ ...formData, errors: { ...errors, cognito: error } });
-		}
+		auth.signIn &&
+			auth.signIn(
+				{ username, password },
+				() => history.push('/'),
+				(error: any) => console.log({ error })
+			);
 	};
 
 	const onInputChange = (event: Event) => {

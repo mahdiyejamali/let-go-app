@@ -7,9 +7,12 @@ export type AuthUserType = {
 
 export type AuthContextType = {
 	isAuthenticted: boolean | null;
-	user: AuthUserType | null;
+	user?: AuthUserType | null;
 	setAuthStatus?: Function;
 	setAuthenticatedUser?: Function;
+	signIn?: Function;
+	signUp?: Function;
+	signOut?: Function;
 };
 
 const initialAuth: AuthContextType = {
