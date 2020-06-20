@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Container from '@material-ui/core/Container';
 import { Paper, Grid, Button, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import useProducts from '../../hooks/useProducts';
 
 const useStyles = makeStyles({
 	container: {
@@ -12,6 +13,17 @@ const useStyles = makeStyles({
 
 const ProductsCreate = () => {
 	const classes = useStyles();
+	const { createProduct } = useProducts();
+	const [formData, setFormData] = useState({ productname: '', description: '' });
+
+	const handleSubmit = () => {
+		createProduct(formData);
+	};
+
+	const handleChange = ({ target: { name, value } }) => {
+		setFormData({ ...formData, [name]: value });
+	};
+
 	return (
 		<Container maxWidth="sm">
 			<form className={classes.container} onSubmit={() => {}} noValidate>
@@ -27,7 +39,7 @@ const ProductsCreate = () => {
 								label="Product Name"
 								name="productname"
 								autoComplete="productname"
-								onChange={() => {}}
+								onChange={handleChange}
 								autoFocus
 							/>
 						</Grid>
@@ -41,12 +53,18 @@ const ProductsCreate = () => {
 								label="Description"
 								name="description"
 								autoComplete="description"
-								onChange={() => {}}
+								onChange={handleChange}
 								autoFocus
 							/>
 						</Grid>
 						<Grid item style={{ marginTop: 16 }}>
-							<Button variant="contained" color="primary" type="submit" disabled={false}>
+							<Button
+								variant="contained"
+								color="primary"
+								type="button"
+								onClick={handleSubmit}
+								disabled={false}
+							>
 								Submit
 							</Button>
 						</Grid>
